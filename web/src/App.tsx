@@ -9,7 +9,7 @@ import { Casino } from '@mui/icons-material';
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const { create, createInProgress, createError, lottery } = useCreateLottery();
-  const { lotteries, isLoading } = useFetchLotteries();
+  const { lotteries, isLoading, loadLotteries } = useFetchLotteries();
 
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
@@ -32,6 +32,7 @@ function App() {
         createLottery={create}
         error={createError}
         loading={createInProgress}
+        createLotteryCallback={loadLotteries}
       />
       <Snackbar
         open={lottery !== undefined && !modalOpen}

@@ -23,15 +23,12 @@ export const createLottery = async (
   return response.json();
 };
 
-export const fetchLotteries = async (
-  signal: AbortSignal,
-): Promise<Lottery[]> => {
+export const fetchLotteries = async (): Promise<Lottery[]> => {
   const response = await fetch(`${API_URL}/lotteries`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-    signal,
   });
 
   if (!response.ok) {

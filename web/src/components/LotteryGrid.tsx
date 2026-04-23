@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function LotteryGrid({ lotteries }: Props) {
-  return (
+  const lotteryGrid = (
     <Grid
       container
       spacing={{ xs: 2, md: 3 }}
@@ -19,5 +19,11 @@ export default function LotteryGrid({ lotteries }: Props) {
         </Grid>
       ))}
     </Grid>
+  );
+
+  return lotteries.length > 0 ? (
+    lotteryGrid
+  ) : (
+    <div>There are no lotteries currently</div>
   );
 }
