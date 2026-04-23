@@ -1,9 +1,14 @@
-import { Box, Modal, Typography } from '@mui/material';
-import AddLotteryForm from './AddLotteryForm';
+import { Box, Button, Modal, TextField, Typography } from '@mui/material';
+import type { Lottery } from '../types/lottery.ts';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 
 interface AddLotteryModalProps {
   open: boolean;
   onClose: () => void;
+  createLottery: (data: { name: string; prize: string }) => Promise<void>;
+  error?: string;
+  lottery?: Lottery;
+  loading: boolean;
 }
 
 const style = {
@@ -17,16 +22,29 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+type LotteryInputs = {
+  lotteryName: string;
+  lotteryPrize: string;
+};
 
-function AddLotteryModal({ open, onClose }: AddLotteryModalProps) {
-  const handleFormSubmit = (data: {
-    lotteryName: string;
-    lotteryPrize: string;
-  }) => {
-    console.log('Lottery data:', data);
-    onClose();
+function AddLotteryModal({
+  open,
+  onClose,
+  createLottery,
+  loading,
+}: AddLotteryModalProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LotteryInputs>();
+
+  const onSubmitHandler: SubmitHandler<LotteryInputs> = (data) => {
+    createLottery({
+      name: data.lotteryName,
+      prize: data.lotteryPrize,
+    }).then(() => onClose());
   };
-
   return (
     <Modal
       open={open}
@@ -38,7 +56,32 @@ function AddLotteryModal({ open, onClose }: AddLotteryModalProps) {
         <Typography id="add-lottery-modal-title" variant="h6" component="h2">
           Add a new lottery
         </Typography>
-        <AddLotteryForm onSubmit={handleFormSubmit} />
+        <form onSubmit={handleSubmit(onSubmitHandler)}>
+          <TextField
+            label="Lottery name"
+            variant="standard"
+            {...register('lotteryName', { required: true })}
+            error={!!errors.lotteryName}
+            helperText={errors.lotteryName && 'This field is required'}
+            fullWidth
+          />
+          <TextField
+            label="Lottery prize"
+            variant="standard"
+            {...register('lotteryPrize', { required: true })}
+            error={!!errors.lotteryPrize}
+            helperText={errors.lotteryPrize && 'This field is required'}
+            fullWidth
+          />
+          <Button
+            type="submit"
+            variant="text"
+            loading={loading}
+            disabled={loading}
+          >
+            Add
+          </Button>
+        </form>
       </Box>
     </Modal>
   );
