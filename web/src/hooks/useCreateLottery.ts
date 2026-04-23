@@ -27,5 +27,5 @@ export const useCreateLottery = () => {
       });
   };
 
-  return { create, lottery, loading, error };
+  return { create, lottery, createInProgress: loading, createError: error };
 };
