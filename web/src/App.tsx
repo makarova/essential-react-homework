@@ -8,11 +8,29 @@ import { Casino } from '@mui/icons-material';
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedLotteryIds, setSelectedLotteryIds] = useState<Array<string>>(
+    [],
+  );
   const { create, createInProgress, createError, lottery } = useCreateLottery();
   const { lotteries, isLoading, loadLotteries } = useFetchLotteries();
 
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
+
+  const checkIsLotterySelected = (lotteryId: string): boolean => {
+    return selectedLotteryIds.includes(lotteryId);
+  };
+
+  const handleLotterySelected = (lotteryId: string): void => {
+    if (!checkIsLotterySelected(lotteryId)) {
+      setSelectedLotteryIds([...selectedLotteryIds, lotteryId]);
+    } else {
+      setSelectedLotteryIds(
+        selectedLotteryIds.filter((id) => id !== lotteryId),
+      );
+    }
+    console.log(selectedLotteryIds);
+  };
 
   return (
     <>
@@ -23,7 +41,11 @@ function App() {
       {isLoading ? (
         <div>Loading lotteries...</div>
       ) : (
-        <LotteryGrid lotteries={lotteries} />
+        <LotteryGrid
+          lotteries={lotteries}
+          checkIsSelected={checkIsLotterySelected}
+          handleLotterySelected={handleLotterySelected}
+        />
       )}
       <AddLotteryButton handleClick={handleOpen} disabled={createInProgress} />
       <AddLotteryModal

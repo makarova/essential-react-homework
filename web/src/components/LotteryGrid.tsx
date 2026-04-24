@@ -4,9 +4,15 @@ import LotteryCard from './LotteryCard.tsx';
 
 interface Props {
   lotteries: Lottery[];
+  checkIsSelected: (lotteryId: string) => boolean;
+  handleLotterySelected: (lotteryId: string) => void;
 }
 
-export default function LotteryGrid({ lotteries }: Props) {
+export default function LotteryGrid({
+  lotteries,
+  checkIsSelected,
+  handleLotterySelected,
+}: Props) {
   const lotteryGrid = (
     <Grid
       container
@@ -15,7 +21,11 @@ export default function LotteryGrid({ lotteries }: Props) {
     >
       {lotteries.map((lottery: Lottery, index) => (
         <Grid key={index} size={{ xs: 2, sm: 4, md: 4 }}>
-          <LotteryCard lottery={lottery} />
+          <LotteryCard
+            lottery={lottery}
+            checkIsSelected={() => checkIsSelected(lottery.id)}
+            updateSelection={handleLotterySelected}
+          />
         </Grid>
       ))}
     </Grid>
