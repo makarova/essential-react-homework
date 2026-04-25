@@ -33,7 +33,7 @@ export default function RegisterForLotteryModal({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<RegisterForLotteryInputs>();
 
   const onSubmitHandler: SubmitHandler<RegisterForLotteryInputs> = (data) => {
@@ -68,6 +68,7 @@ export default function RegisterForLotteryModal({
             variant="text"
             loading={loading}
             disabled={loading}
+            sx={!isValid && { color: 'grey' }}
           >
             Register
           </Button>

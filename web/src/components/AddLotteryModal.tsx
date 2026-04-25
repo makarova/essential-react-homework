@@ -1,5 +1,5 @@
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
-import type { Lottery } from '../types/lottery.ts';
+import type { Lottery } from '../types';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 
 interface AddLotteryModalProps {
@@ -36,7 +36,7 @@ function AddLotteryModal({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<LotteryInputs>();
 
   const onSubmitHandler: SubmitHandler<LotteryInputs> = (data) => {
@@ -78,6 +78,7 @@ function AddLotteryModal({
             variant="text"
             loading={loading}
             disabled={loading}
+            sx={!isValid && { color: 'grey' }}
           >
             Add
           </Button>
