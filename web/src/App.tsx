@@ -38,7 +38,7 @@ function App() {
     registerError,
     resetRegisterState,
   } = useRegisterForLotteries();
-  const { lotteries, isLoading, loadLotteries } = useFetchLotteries();
+  const { lotteries, isLoading } = useFetchLotteries();
   const { matchingLotteries, onSearchChange, searchTerm } =
     useSearchLotteries(lotteries);
   const { isLotterySelected, handleLotterySelected, selectedLotteryIds } =
@@ -66,7 +66,6 @@ function App() {
             createLottery={create}
             error={createError}
             loading={createInProgress}
-            createLotteryCallback={loadLotteries}
           />
           <RegisterForLotteryModal
             open={registerForLotteryModalOpen}

@@ -6,7 +6,6 @@ interface AddLotteryModalProps {
   open: boolean;
   onClose: () => void;
   createLottery: (data: { name: string; prize: string }) => Promise<void>;
-  createLotteryCallback: () => void;
   error?: string;
   lottery?: Lottery;
   loading: boolean;
@@ -32,7 +31,6 @@ function AddLotteryModal({
   open,
   onClose,
   createLottery,
-  createLotteryCallback,
   loading,
 }: AddLotteryModalProps) {
   const {
@@ -45,9 +43,7 @@ function AddLotteryModal({
     createLottery({
       name: data.lotteryName,
       prize: data.lotteryPrize,
-    })
-      .then(() => createLotteryCallback())
-      .then(() => onClose());
+    }).then(() => onClose());
   };
   return (
     <Modal
