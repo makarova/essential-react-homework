@@ -31,6 +31,9 @@ export default function LotteryCard({
   const card = (
     <>
       <CardActionArea onClick={handleSelectionChange} value={id}>
+        <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
+          <SyncIcon></SyncIcon>
+        </Box>
         <CardContent>
           <Typography variant="h5" component="div">
             {name}
@@ -40,11 +43,6 @@ export default function LotteryCard({
           <Typography variant="body2">{id}</Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small">
-          <SyncIcon></SyncIcon>
-        </Button>
-      </CardActions>
     </>
   );
 

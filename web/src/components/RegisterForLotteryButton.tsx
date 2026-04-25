@@ -5,7 +5,7 @@ interface Props {
   disabled?: boolean;
 }
 
-export default function RegisterToLotteryButton({
+export default function RegisterForLotteryButton({
   handleClick,
   disabled,
 }: Props) {

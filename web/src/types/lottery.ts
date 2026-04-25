@@ -8,3 +8,8 @@ export interface CreateLotteryRequest {
   name: string;
   prize: string;
 }
+
+export interface RegisterForLotteryRequest {
+  name: string;
+  lotteryId: string;
+}

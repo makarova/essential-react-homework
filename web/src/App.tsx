@@ -4,23 +4,33 @@ import {
   AddLotteryButton,
   AddLotteryModal,
   LotteryGrid,
-  RegisterToLotteryButton,
+  RegisterForLotteryButton,
+  RegisterForLotteryModal,
 } from './components';
 import { Box, Snackbar, Typography } from '@mui/material';
-import { useCreateLottery } from './hooks';
-import { useFetchLotteries } from './hooks/useFetchLotteries.ts';
+import {
+  useCreateLottery,
+  useFetchLotteries,
+  useRegisterForLottery,
+} from './hooks';
 import { Casino } from '@mui/icons-material';
 
 function App() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [addLotteryModalOpen, setAddLotteryModalOpen] = useState(false);
+  const [registerForLotteryModalOpen, setRegisterForLotteryModalOpen] =
+    useState(false);
   const [selectedLotteryIds, setSelectedLotteryIds] = useState<Array<string>>(
     [],
   );
   const { create, createInProgress, createError, lottery } = useCreateLottery();
+  const {
+    registerForLottery,
+    registerInProgress,
+    registerSuccess,
+    registerError,
+    resetRegisterState,
+  } = useRegisterForLottery();
   const { lotteries, isLoading, loadLotteries } = useFetchLotteries();
-
-  const handleOpen = () => setModalOpen(true);
-  const handleClose = () => setModalOpen(false);
 
   const checkIsLotterySelected = (lotteryId: string): boolean => {
     return selectedLotteryIds.includes(lotteryId);
@@ -34,7 +44,18 @@ function App() {
         selectedLotteryIds.filter((id) => id !== lotteryId),
       );
     }
-    console.log(selectedLotteryIds);
+  };
+
+  const registerForMultipleLotteries = (userName: string) => {
+    console.log('Register for multiple lotteries');
+    return Promise.all(
+      selectedLotteryIds.map((lotteryId) =>
+        registerForLottery({
+          lotteryId: lotteryId,
+          userName: userName,
+        }),
+      ),
+    ).finally(() => setSelectedLotteryIds([]));
   };
 
   return (
@@ -55,29 +76,47 @@ function App() {
             />
           )}
           <AddLotteryModal
-            open={modalOpen}
-            onClose={handleClose}
+            open={addLotteryModalOpen}
+            onClose={() => setAddLotteryModalOpen(false)}
             createLottery={create}
             error={createError}
             loading={createInProgress}
             createLotteryCallback={loadLotteries}
           />
+          <RegisterForLotteryModal
+            open={registerForLotteryModalOpen}
+            onClose={() => setRegisterForLotteryModalOpen(false)}
+            registerForLotteries={registerForMultipleLotteries}
+            error={createError}
+            loading={createInProgress}
+          />
           <Snackbar
-            open={lottery !== undefined && !modalOpen}
-            autoHideDuration={5}
+            open={lottery !== undefined && !addLotteryModalOpen}
+            autoHideDuration={5000}
             message={
               createError === undefined ? 'Lottery created' : createError
             }
             sx={{ bottom: { xs: 90, sm: 0 } }}
           />
+          <Snackbar
+            open={registerSuccess !== undefined && !registerForLotteryModalOpen}
+            autoHideDuration={5000}
+            onClose={resetRegisterState}
+            message={
+              registerError === undefined
+                ? 'Registered to lotteries'
+                : registerError
+            }
+            sx={{ bottom: { xs: 90, sm: 0 } }}
+          />
         </Box>
         <Box sx={{ position: 'fixed', bottom: 32, right: 32 }}>
-          <RegisterToLotteryButton
-            handleClick={() => console.log('Register clicked')}
-            disabled={selectedLotteryIds.length === 0}
+          <RegisterForLotteryButton
+            handleClick={() => setRegisterForLotteryModalOpen(true)}
+            disabled={selectedLotteryIds.length === 0 || registerInProgress}
           />
           <AddLotteryButton
-            handleClick={handleOpen}
+            handleClick={() => setAddLotteryModalOpen(true)}
             disabled={createInProgress}
           />
         </Box>

@@ -1,4 +1,8 @@
-import type { CreateLotteryRequest, Lottery } from '../types/lottery';
+import type {
+  CreateLotteryRequest,
+  Lottery,
+  RegisterForLotteryRequest,
+} from '../types/lottery';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -33,6 +37,27 @@ export const fetchLotteries = async (): Promise<Lottery[]> => {
 
   if (!response.ok) {
     throw new Error('Failed to fetch lotteries');
+  }
+
+  return response.json();
+};
+
+export const registerForLottery = async (
+  data: RegisterForLotteryRequest,
+): Promise<Lottery[]> => {
+  const response = await fetch(`${API_URL}/register`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      ...data,
+      type: 'simple',
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to register for lottery');
   }
 
   return response.json();
