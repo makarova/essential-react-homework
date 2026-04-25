@@ -36,6 +36,7 @@ function AddLotteryModal({
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm<LotteryInputs>();
 
@@ -43,7 +44,9 @@ function AddLotteryModal({
     createLottery({
       name: data.lotteryName,
       prize: data.lotteryPrize,
-    }).then(() => onClose());
+    })
+      .then(() => reset())
+      .then(() => onClose());
   };
   return (
     <Modal

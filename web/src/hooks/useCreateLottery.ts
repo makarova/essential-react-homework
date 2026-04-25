@@ -1,25 +1,20 @@
 import { useState } from 'react';
 import { createLottery } from '../services';
 import type { Lottery } from '../types';
-import { useFetchLotteries } from '../hooks';
 
 export const useCreateLottery = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
-  const { loadLotteries } = useFetchLotteries();
 
-  const create = (data: Lottery) => {
-    setError(undefined);
+  const create = (data: Lottery, postCreateCallback: () => void) => {
     setLoading(true);
     return createLottery({
       name: data.name,
       prize: data.prize,
     })
-      .then(() => {
-        setSuccess(true);
-        loadLotteries();
-      })
+      .then(() => setSuccess(true))
+      .then(postCreateCallback)
       .catch((err) => {
         setError(err.message);
       })
@@ -27,7 +22,6 @@ export const useCreateLottery = () => {
   };
 
   const resetState = () => {
-    setLoading(false);
     setError(null);
     setSuccess(false);
   };

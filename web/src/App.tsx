@@ -18,7 +18,7 @@ import {
   useSelectLottery,
 } from './hooks';
 import { Casino } from '@mui/icons-material';
-import { NotificationType } from './types';
+import { type Lottery, NotificationType } from './types';
 
 function App() {
   const [addLotteryModalOpen, setAddLotteryModalOpen] = useState(false);
@@ -38,12 +38,27 @@ function App() {
     registerError,
     resetRegisterState,
   } = useRegisterForLotteries();
-  const { lotteries, isLoading } = useFetchLotteries();
+  const { lotteries, isLoading, loadLotteries } = useFetchLotteries();
   const { matchingLotteries, onSearchChange, searchTerm } =
     useSearchLotteries(lotteries);
-  const { isLotterySelected, handleLotterySelected, selectedLotteryIds } =
-    useSelectLottery();
+  const {
+    isLotterySelected,
+    handleLotterySelected,
+    selectedLotteryIds,
+    resetSelectedLotteries,
+  } = useSelectLottery();
 
+  const handleCreateLottery = (data: Lottery) => {
+    return create(data, loadLotteries);
+  };
+
+  const handleRegisterForLotteries = (userName: string) => {
+    return registerForLotteries(
+      userName,
+      selectedLotteryIds,
+      resetSelectedLotteries,
+    );
+  };
   return (
     <>
       <Box sx={{ position: 'relative', width: '100vw', height: '100vh' }}>
@@ -63,22 +78,21 @@ function App() {
           <AddLotteryModal
             open={addLotteryModalOpen}
             onClose={() => setAddLotteryModalOpen(false)}
-            createLottery={create}
+            createLottery={handleCreateLottery}
             error={createError}
             loading={createInProgress}
           />
           <RegisterForLotteryModal
             open={registerForLotteryModalOpen}
             onClose={() => setRegisterForLotteryModalOpen(false)}
-            registerForLotteries={registerForLotteries}
-            error={createError}
-            loading={createInProgress}
+            registerForLotteries={handleRegisterForLotteries}
+            error={registerError}
+            loading={registerInProgress}
           />
           <Notification
             open={lotterySuccess && !addLotteryModalOpen}
             notification={{
-              message:
-                createError === undefined ? 'Lottery created' : createError,
+              message: createError === null ? 'Lottery created' : createError,
               type: createError
                 ? NotificationType.ERROR
                 : NotificationType.SUCCESS,
@@ -89,7 +103,7 @@ function App() {
             open={registerSuccess && !registerForLotteryModalOpen}
             notification={{
               message:
-                registerError === undefined
+                registerError === null
                   ? 'Registered to lotteries'
                   : registerError,
               type: registerError

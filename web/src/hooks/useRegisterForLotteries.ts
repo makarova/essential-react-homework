@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { registerForLottery } from '../services';
-import { useSelectLottery } from '../hooks';
 
 export const useRegisterForLotteries = () => {
-  const { selectedLotteryIds, resetSelectedLotteries } = useSelectLottery();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
-  const register = async (userName: string) => {
+  const register = async (
+    userName: string,
+    selectedLotteryIds: string[],
+    callback: () => void,
+  ) => {
     setLoading(true);
 
     return Promise.all(
@@ -19,10 +21,8 @@ export const useRegisterForLotteries = () => {
         }),
       ),
     )
-      .then(() => {
-        setSuccess(true);
-        resetSelectedLotteries();
-      })
+      .then(() => setSuccess(true))
+      .then(callback)
       .catch((e: Error) => {
         setError(e.message);
 

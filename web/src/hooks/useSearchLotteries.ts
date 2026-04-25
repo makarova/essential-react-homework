@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { Lottery } from '../types';
 
 export const useSearchLotteries = (data: Array<Lottery>) => {
@@ -8,8 +8,12 @@ export const useSearchLotteries = (data: Array<Lottery>) => {
     setSearchTerm(searchTerm);
   }, []);
 
-  const matchingLotteries = data.filter(
-    (s) => s.name.toLowerCase().search(searchTerm.toLowerCase()) !== -1,
+  const matchingLotteries = useMemo(
+    () =>
+      data.filter((s) =>
+        s.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    [data, searchTerm],
   );
 
   return { matchingLotteries, onSearchChange, searchTerm };

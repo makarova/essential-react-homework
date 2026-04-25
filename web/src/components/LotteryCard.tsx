@@ -39,7 +39,6 @@ export default function LotteryCard({
             {name}
           </Typography>
           <Typography variant="body2">{prize}</Typography>
-          <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>{}</Typography>
           <Typography variant="body2">{id}</Typography>
           <Box sx={{ position: 'absolute', top: 12, right: 12 }}>
             {status === 'running' && <Sync />}

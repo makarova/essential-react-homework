@@ -17,6 +17,7 @@ export default function SearchInput({
         label="Search lotteries"
         value={searchTerm}
         variant="outlined"
+        aria-label="Search lotteries"
         onChange={(e) => onChange(e.target.value)}
         slotProps={{
           input: {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { Lottery } from '../types';
 import { fetchLotteries } from '../services';
 
@@ -6,7 +6,7 @@ export const useFetchLotteries = () => {
   const [lotteries, setLotteries] = useState<Array<Lottery>>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const loadLotteries = () => {
+  const loadLotteries = useCallback(() => {
     fetchLotteries()
       .then((lotteries) => {
         setIsLoading(false);
@@ -16,11 +16,11 @@ export const useFetchLotteries = () => {
         console.log(error.message);
         setIsLoading(false);
       });
-  };
+  }, []);
 
   useEffect(() => {
     loadLotteries();
-  }, []);
+  }, [loadLotteries]);
 
   return {
     lotteries: lotteries,
