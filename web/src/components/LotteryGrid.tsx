@@ -1,18 +1,23 @@
 import type { Lottery } from '../types/lottery.ts';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import LotteryCard from './LotteryCard.tsx';
 
 interface Props {
   lotteries: Lottery[];
   checkIsSelected: (lotteryId: string) => boolean;
   handleLotterySelected: (lotteryId: string) => void;
+  isLoading: boolean;
 }
 
 export default function LotteryGrid({
   lotteries,
+  isLoading,
   checkIsSelected,
   handleLotterySelected,
 }: Props) {
+  if (isLoading) {
+    return <Box>Loading lotteries...</Box>;
+  }
   const lotteryGrid = (
     <Grid
       container

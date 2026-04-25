@@ -1,3 +1,3 @@
 export * from './useCreateLottery';
 export * from './useFetchLotteries';
-export * from './useRegisterForLottery.ts';
+export * from './useRegisterForLotteries.ts';

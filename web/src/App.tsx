@@ -7,21 +7,20 @@ import {
   RegisterForLotteryButton,
   RegisterForLotteryModal,
 } from './components';
-import { Box, Snackbar, Typography } from '@mui/material';
+import { Box, Snackbar, TextField, Typography } from '@mui/material';
 import {
   useCreateLottery,
   useFetchLotteries,
-  useRegisterForLottery,
+  useRegisterForLotteries,
 } from './hooks';
 import { Casino } from '@mui/icons-material';
+import { useSearchLotteries } from './hooks/useSearchLotteries.ts';
+import { useSelectLottery } from './hooks/useSelectLottery.ts';
 
 function App() {
   const [addLotteryModalOpen, setAddLotteryModalOpen] = useState(false);
   const [registerForLotteryModalOpen, setRegisterForLotteryModalOpen] =
     useState(false);
-  const [selectedLotteryIds, setSelectedLotteryIds] = useState<Array<string>>(
-    [],
-  );
   const {
     create,
     createInProgress,
@@ -30,39 +29,17 @@ function App() {
     resetAddLotteryState,
   } = useCreateLottery();
   const {
-    registerForLottery,
+    registerForLotteries,
     registerInProgress,
     registerSuccess,
     registerError,
     resetRegisterState,
-  } = useRegisterForLottery();
+  } = useRegisterForLotteries();
   const { lotteries, isLoading, loadLotteries } = useFetchLotteries();
-
-  const checkIsLotterySelected = (lotteryId: string): boolean => {
-    return selectedLotteryIds.includes(lotteryId);
-  };
-
-  const handleLotterySelected = (lotteryId: string): void => {
-    if (!checkIsLotterySelected(lotteryId)) {
-      setSelectedLotteryIds([...selectedLotteryIds, lotteryId]);
-    } else {
-      setSelectedLotteryIds(
-        selectedLotteryIds.filter((id) => id !== lotteryId),
-      );
-    }
-  };
-
-  const registerForMultipleLotteries = (userName: string) => {
-    console.log('Register for multiple lotteries');
-    return Promise.all(
-      selectedLotteryIds.map((lotteryId) =>
-        registerForLottery({
-          lotteryId: lotteryId,
-          userName: userName,
-        }),
-      ),
-    ).finally(() => setSelectedLotteryIds([]));
-  };
+  const { matchingLotteries, onSearchChange, searchTerm } =
+    useSearchLotteries(lotteries);
+  const { isLotterySelected, handleLotterySelected, selectedLotteryIds } =
+    useSelectLottery();
 
   return (
     <>
@@ -72,15 +49,19 @@ function App() {
             Lotteries
             <Casino fontSize="large" />
           </Typography>
-          {isLoading ? (
-            <div>Loading lotteries...</div>
-          ) : (
-            <LotteryGrid
-              lotteries={lotteries}
-              checkIsSelected={checkIsLotterySelected}
-              handleLotterySelected={handleLotterySelected}
-            />
-          )}
+          <TextField
+            id="outlined-basic"
+            label="Search lotteries"
+            variant="outlined"
+            value={searchTerm}
+            onChange={onSearchChange}
+          />
+          <LotteryGrid
+            lotteries={matchingLotteries}
+            isLoading={isLoading}
+            checkIsSelected={isLotterySelected}
+            handleLotterySelected={handleLotterySelected}
+          />
           <AddLotteryModal
             open={addLotteryModalOpen}
             onClose={() => setAddLotteryModalOpen(false)}
@@ -92,7 +73,7 @@ function App() {
           <RegisterForLotteryModal
             open={registerForLotteryModalOpen}
             onClose={() => setRegisterForLotteryModalOpen(false)}
-            registerForLotteries={registerForMultipleLotteries}
+            registerForLotteries={registerForLotteries}
             error={createError}
             loading={createInProgress}
           />

@@ -4,7 +4,7 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 interface RegisterForLotteryModalProps {
   open: boolean;
   onClose: () => void;
-  registerForLotteries: (userName: string) => Promise<void[]>;
+  registerForLotteries: (userName: string) => Promise<void>;
   error?: string;
   loading: boolean;
 }
@@ -37,9 +37,7 @@ export default function RegisterForLotteryModal({
   } = useForm<RegisterForLotteryInputs>();
 
   const onSubmitHandler: SubmitHandler<RegisterForLotteryInputs> = (data) => {
-    registerForLotteries(data.userName)
-      // .then(() => createLotteryCallback())
-      .then(() => onClose());
+    registerForLotteries(data.userName).then(() => onClose());
   };
   return (
     <Modal
