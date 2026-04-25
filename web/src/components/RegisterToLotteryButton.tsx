@@ -5,16 +5,19 @@ interface Props {
   disabled?: boolean;
 }
 
-export default function AddLotteryButton({ handleClick, disabled }: Props) {
+export default function RegisterToLotteryButton({
+  handleClick,
+  disabled,
+}: Props) {
   return (
     <Fab
       color="primary"
       variant="extended"
-      sx={{ mr: 1 }}
+      sx={{ mr: 2 }}
       onClick={handleClick}
       disabled={disabled}
     >
-      Add Lottery
+      Register
     </Fab>
   );
 }
