@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { registerForLottery } from '../services';
-import { useSelectLottery } from './useSelectLottery.ts';
+import { useSelectLottery } from '../hooks';
 
 export const useRegisterForLotteries = () => {
   const { selectedLotteryIds, resetSelectedLotteries } = useSelectLottery();
@@ -9,7 +9,6 @@ export const useRegisterForLotteries = () => {
   const [success, setSuccess] = useState<boolean>(false);
 
   const register = async (userName: string) => {
-    setError(undefined);
     setLoading(true);
 
     return Promise.all(

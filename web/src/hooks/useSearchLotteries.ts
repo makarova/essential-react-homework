@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import type { Lottery } from '../types/lottery.ts';
+import type { Lottery } from '../types';
 
 export const useSearchLotteries = (data: Array<Lottery>) => {
   const [searchTerm, setSearchTerm] = useState('');

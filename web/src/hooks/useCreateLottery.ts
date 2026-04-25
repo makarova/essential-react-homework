@@ -6,7 +6,7 @@ import { useFetchLotteries } from '../hooks';
 export const useCreateLottery = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lottery, setLottery] = useState<Lottery>();
+  const [success, setSuccess] = useState<boolean>(false);
   const { loadLotteries } = useFetchLotteries();
 
   const create = (data: Lottery) => {
@@ -16,8 +16,8 @@ export const useCreateLottery = () => {
       name: data.name,
       prize: data.prize,
     })
-      .then((lottery) => {
-        setLottery(lottery);
+      .then(() => {
+        setSuccess(true);
         loadLotteries();
       })
       .catch((err) => {
@@ -29,12 +29,12 @@ export const useCreateLottery = () => {
   const resetState = () => {
     setLoading(false);
     setError(null);
-    setLottery(null);
+    setSuccess(false);
   };
 
   return {
     create,
-    lotterySuccess: lottery !== null,
+    lotterySuccess: success,
     createInProgress: loading,
     createError: error,
     resetAddLotteryState: resetState,

@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import type { Lottery } from '../types/lottery.ts';
+import type { Lottery } from '../types';
 import { fetchLotteries } from '../services';
 
 export const useFetchLotteries = () => {
   const [lotteries, setLotteries] = useState<Array<Lottery>>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const loadLotteries = () => {
-    setIsLoading(true);
-
     fetchLotteries()
       .then((lotteries) => {
         setIsLoading(false);
@@ -21,7 +19,6 @@ export const useFetchLotteries = () => {
   };
 
   useEffect(() => {
-    // todo fix the es lint warning
     loadLotteries();
   }, []);
 
