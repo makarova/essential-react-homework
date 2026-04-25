@@ -7,7 +7,7 @@ import {
   RegisterForLotteryButton,
   RegisterForLotteryModal,
 } from './components';
-import { Box, Snackbar, TextField, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import {
   useCreateLottery,
   useFetchLotteries,
@@ -16,6 +16,9 @@ import {
 import { Casino } from '@mui/icons-material';
 import { useSearchLotteries } from './hooks/useSearchLotteries.ts';
 import { useSelectLottery } from './hooks/useSelectLottery.ts';
+import SearchInput from './components/SearchInput.tsx';
+import Notification from './components/Notification.tsx';
+import { NotificationType } from './types/notification.ts';
 
 function App() {
   const [addLotteryModalOpen, setAddLotteryModalOpen] = useState(false);
@@ -49,14 +52,9 @@ function App() {
             Lotteries
             <Casino fontSize="large" />
           </Typography>
-          <TextField
-            id="outlined-basic"
-            label="Search lotteries"
-            variant="outlined"
-            value={searchTerm}
-            onChange={onSearchChange}
-          />
+          <SearchInput searchTerm={searchTerm} onChange={onSearchChange} />
           <LotteryGrid
+            searchTerm={searchTerm}
             lotteries={matchingLotteries}
             isLoading={isLoading}
             checkIsSelected={isLotterySelected}
@@ -77,23 +75,29 @@ function App() {
             error={createError}
             loading={createInProgress}
           />
-          <Snackbar
+          <Notification
             open={lotterySuccess && !addLotteryModalOpen}
-            autoHideDuration={3000}
+            notification={{
+              message:
+                createError === undefined ? 'Lottery created' : createError,
+              type: createError
+                ? NotificationType.ERROR
+                : NotificationType.SUCCESS,
+            }}
             onClose={resetAddLotteryState}
-            message={
-              createError === undefined ? 'Lottery created' : createError
-            }
           />
-          <Snackbar
+          <Notification
             open={registerSuccess && !registerForLotteryModalOpen}
-            autoHideDuration={3000}
+            notification={{
+              message:
+                registerError === undefined
+                  ? 'Registered to lotteries'
+                  : registerError,
+              type: registerError
+                ? NotificationType.ERROR
+                : NotificationType.SUCCESS,
+            }}
             onClose={resetRegisterState}
-            message={
-              registerError === undefined
-                ? 'Registered to lotteries'
-                : registerError
-            }
           />
         </Box>
         <Box sx={{ position: 'fixed', bottom: 32, right: 32 }}>

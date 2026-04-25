@@ -7,6 +7,7 @@ interface Props {
   checkIsSelected: (lotteryId: string) => boolean;
   handleLotterySelected: (lotteryId: string) => void;
   isLoading: boolean;
+  searchTerm: string;
 }
 
 export default function LotteryGrid({
@@ -14,9 +15,13 @@ export default function LotteryGrid({
   isLoading,
   checkIsSelected,
   handleLotterySelected,
+  searchTerm,
 }: Props) {
   if (isLoading) {
     return <Box>Loading lotteries...</Box>;
+  }
+  if (searchTerm.length > 0 && lotteries.length == 0) {
+    return <Box>No search results for {searchTerm}</Box>;
   }
   const lotteryGrid = (
     <Grid
