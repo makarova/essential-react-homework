@@ -9,7 +9,7 @@ interface Register {
 export const useRegisterForLottery = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>();
+  const [success, setSuccess] = useState<boolean>(false);
 
   const register = async (data: Register) => {
     console.log(data);
@@ -32,7 +32,7 @@ export const useRegisterForLottery = () => {
   };
 
   const reset = () => {
-    setSuccess(undefined);
+    setSuccess(false);
     setError(null);
   };
 

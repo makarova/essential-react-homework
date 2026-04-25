@@ -27,5 +27,17 @@ export const useCreateLottery = () => {
       });
   };
 
-  return { create, lottery, createInProgress: loading, createError: error };
+  const resetState = () => {
+    setLoading(false);
+    setError(null);
+    setLottery(null);
+  };
+
+  return {
+    create,
+    lotterySuccess: lottery !== null,
+    createInProgress: loading,
+    createError: error,
+    resetAddLotteryState: resetState,
+  };
 };

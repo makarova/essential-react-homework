@@ -22,7 +22,13 @@ function App() {
   const [selectedLotteryIds, setSelectedLotteryIds] = useState<Array<string>>(
     [],
   );
-  const { create, createInProgress, createError, lottery } = useCreateLottery();
+  const {
+    create,
+    createInProgress,
+    createError,
+    lotterySuccess,
+    resetAddLotteryState,
+  } = useCreateLottery();
   const {
     registerForLottery,
     registerInProgress,
@@ -91,23 +97,22 @@ function App() {
             loading={createInProgress}
           />
           <Snackbar
-            open={lottery !== undefined && !addLotteryModalOpen}
-            autoHideDuration={5000}
+            open={lotterySuccess && !addLotteryModalOpen}
+            autoHideDuration={3000}
+            onClose={resetAddLotteryState}
             message={
               createError === undefined ? 'Lottery created' : createError
             }
-            sx={{ bottom: { xs: 90, sm: 0 } }}
           />
           <Snackbar
-            open={registerSuccess !== undefined && !registerForLotteryModalOpen}
-            autoHideDuration={5000}
+            open={registerSuccess && !registerForLotteryModalOpen}
+            autoHideDuration={3000}
             onClose={resetRegisterState}
             message={
               registerError === undefined
                 ? 'Registered to lotteries'
                 : registerError
             }
-            sx={{ bottom: { xs: 90, sm: 0 } }}
           />
         </Box>
         <Box sx={{ position: 'fixed', bottom: 32, right: 32 }}>
