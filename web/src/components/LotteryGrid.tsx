@@ -30,7 +30,7 @@ export default function LotteryGrid({
       columns={{ xs: 4, sm: 8, md: 12 }}
     >
       {lotteries.map((lottery: Lottery, index) => (
-        <Grid key={index} size={{ xs: 2, sm: 4, md: 4 }}>
+        <Grid key={index} size={{ xs: 4, sm: 4, md: 4 }}>
           <LotteryCard
             lottery={lottery}
             checkIsSelected={() => checkIsSelected(lottery.id)}
@@ -44,6 +44,6 @@ export default function LotteryGrid({
   return lotteries.length > 0 ? (
     lotteryGrid
   ) : (
-    <div>There are no lotteries currently</div>
+    <Box>There are no lotteries currently</Box>
   );
 }

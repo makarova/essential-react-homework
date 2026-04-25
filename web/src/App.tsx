@@ -6,19 +6,19 @@ import {
   LotteryGrid,
   RegisterForLotteryButton,
   RegisterForLotteryModal,
+  Notification,
+  SearchInput,
 } from './components';
 import { Box, Typography } from '@mui/material';
 import {
   useCreateLottery,
   useFetchLotteries,
   useRegisterForLotteries,
+  useSearchLotteries,
+  useSelectLottery,
 } from './hooks';
 import { Casino } from '@mui/icons-material';
-import { useSearchLotteries } from './hooks/useSearchLotteries.ts';
-import { useSelectLottery } from './hooks/useSelectLottery.ts';
-import SearchInput from './components/SearchInput.tsx';
-import Notification from './components/Notification.tsx';
-import { NotificationType } from './types/notification.ts';
+import { NotificationType } from './types';
 
 function App() {
   const [addLotteryModalOpen, setAddLotteryModalOpen] = useState(false);

@@ -5,7 +5,7 @@ import {
   CardActionArea,
   Typography,
 } from '@mui/material';
-import SyncIcon from '@mui/icons-material/Sync';
+import { Done, Sync } from '@mui/icons-material';
 import type { Lottery } from '../types/lottery.ts';
 
 interface LotteryProps {
@@ -15,23 +15,25 @@ interface LotteryProps {
 }
 
 export default function LotteryCard({
-  lottery,
+  lottery: { id, name, prize, status },
   checkIsSelected,
   updateSelection,
 }: LotteryProps) {
-  const { id, name, prize } = lottery;
-
-  const handleSelectionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateSelection(e.currentTarget.value);
-  };
   const isSelected = checkIsSelected(id);
+  const isDisabled = status !== 'running';
 
   const card = (
     <>
-      <CardActionArea onClick={handleSelectionChange} value={id}>
-        <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
-          <SyncIcon></SyncIcon>
-        </Box>
+      <CardActionArea
+        onClick={(e) => updateSelection(e.currentTarget.value)}
+        value={id}
+        disabled={isDisabled}
+        sx={{
+          '&.Mui-disabled': {
+            backgroundColor: 'action.disabled',
+          },
+        }}
+      >
         <CardContent>
           <Typography variant="h5" component="div">
             {name}
@@ -39,15 +41,20 @@ export default function LotteryCard({
           <Typography variant="body2">{prize}</Typography>
           <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>{}</Typography>
           <Typography variant="body2">{id}</Typography>
+          <Box sx={{ position: 'absolute', top: 12, right: 12 }}>
+            {status === 'running' && <Sync />}
+            {status === 'finished' && <Done />}
+          </Box>
         </CardContent>
       </CardActionArea>
     </>
   );
 
   return (
-    <Box sx={{ minWidth: 275 }}>
+    <Box>
       <Card
         variant="outlined"
+        key={id}
         sx={{
           border: isSelected ? '2px solid #1976d2' : undefined,
         }}
