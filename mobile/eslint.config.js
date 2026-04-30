@@ -9,6 +9,9 @@ export default [
       parser: tsEslintParser,
       parserOptions: { project: './tsconfig.json' },
     },
+    rules: {
+      'react/react-in-jsx-scope': 'off', // Not needed in React 19
+    },
   },
   {
     ignores: ['babel.config.js', 'eslint.config.js', '*.config.js'],
