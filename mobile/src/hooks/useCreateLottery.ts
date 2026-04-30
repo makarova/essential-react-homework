@@ -7,18 +7,20 @@ export const useCreateLottery = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
-  const create = (data: Lottery, postCreateCallback: () => void) => {
+  const create = async (data: Lottery, postCreateCallback: () => void) => {
     setLoading(true);
-    return createLottery({
-      name: data.name,
-      prize: data.prize,
-    })
-      .then(() => setSuccess(true))
-      .then(postCreateCallback)
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => setLoading(false));
+    try {
+      await createLottery({
+        name: data.name,
+        prize: data.prize,
+      });
+      setSuccess(true);
+      postCreateCallback();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resetState = () => {

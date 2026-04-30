@@ -18,7 +18,9 @@ export default function AddLotteryScreen() {
   const handleCreateLottery = (data: Lottery) => {
     return create(data, () => {
       resetAddLotteryState();
-      const toastMessage = lotterySuccess ? 'Lottery created' : createError;
+      const toastMessage = lotterySuccess
+        ? 'New lottery added successfully!'
+        : createError;
       toast.show(toastMessage);
     });
   };

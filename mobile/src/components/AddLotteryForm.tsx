@@ -35,14 +35,15 @@ function AddLotteryForm({
   } = useForm<LotteryInputs>();
 
   const backgroundColor = isValid ? colors.primary : colors.grey;
-  const onSubmitHandler: SubmitHandler<LotteryInputs> = (data) => {
+  const onSubmitHandler: SubmitHandler<LotteryInputs> = async (data) => {
     if (!isValid) {
       return;
     }
-    createLottery({
+    await createLottery({
       name: data.lotteryName,
       prize: data.lotteryPrize,
-    }).then(onClose);
+    });
+    onClose();
   };
 
   return (
