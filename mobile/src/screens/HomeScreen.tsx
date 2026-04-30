@@ -10,13 +10,15 @@ import SearchInput from '../components/SearchInput';
 import { useSearchLotteries } from '../hooks/useSearchLotteries';
 import { useSelectLottery } from '../hooks/useSelectLottery';
 import { LotteryCard } from '../components/LotteryCard';
+import RegisterForLotteryButton from '../components/RegisterForLotteryButton';
 
 const Home = () => {
   const navigation = useNavigation<AddLotteryNavigationProp>();
   const { lotteries, loadLotteries } = useFetchLotteries();
   const { searchTerm, onSearchChange, matchingLotteries } =
     useSearchLotteries(lotteries);
-  const { handleLotterySelected, isLotterySelected } = useSelectLottery();
+  const { handleLotterySelected, isLotterySelected, selectedLotteryIds } =
+    useSelectLottery();
 
   useFocusEffect(
     useCallback(() => {
@@ -46,16 +48,26 @@ const Home = () => {
       <View>
         <SearchInput searchTerm={searchTerm} onChange={onSearchChange} />
       </View>
+      <RegisterForLotteryButton
+        onPress={() =>
+          navigation.navigate('RegisterForLottery', {
+            selectedLotteryIds: selectedLotteryIds,
+          })
+        }
+        isDisabled={selectedLotteryIds.length === 0}
+      />
       <AddLotteryButton onPress={() => navigation.navigate('AddLottery')} />
-      {matchingLotteries.length > 0 ? (
-        <FlatList
-          data={matchingLotteries}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-        />
-      ) : (
-        <Text>No results for search {searchTerm}</Text>
-      )}
+      <View style={styles.lotteryList}>
+        {matchingLotteries.length > 0 ? (
+          <FlatList
+            data={matchingLotteries}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+          />
+        ) : (
+          <Text>No results for search {searchTerm}</Text>
+        )}
+      </View>
     </View>
   );
 };
@@ -67,7 +79,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.secondary,
     alignItems: 'center',
-    paddingTop: 64,
   },
   title: {
     flexDirection: 'row',
@@ -76,5 +87,9 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 36,
     marginRight: 16,
+  },
+  lotteryList: {
+    flex: 1,
+    marginBottom: 100,
   },
 });

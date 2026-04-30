@@ -13,11 +13,13 @@ export interface Lottery {
 export type RootStackParamList = {
   Home: undefined;
   AddLottery: undefined;
+  RegisterForLottery: { selectedLotteryIds: string[] };
 };
 
 export type AddLotteryNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'AddLottery'
+  'AddLottery',
+  'RegisterForLottery'
 >;
 
 // export type RegisterScreenRouteProp = RouteProp<RootStackParamList, 'Register'>;
