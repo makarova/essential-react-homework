@@ -33,6 +33,7 @@ function AddLotteryForm({
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<LotteryInputs>();
+
   const backgroundColor = isValid ? colors.primary : colors.grey;
   const onSubmitHandler: SubmitHandler<LotteryInputs> = (data) => {
     if (!isValid) {
