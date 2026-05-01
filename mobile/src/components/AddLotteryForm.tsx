@@ -49,6 +49,9 @@ function AddLotteryForm({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add a new lottery</Text>
+      <Pressable onPress={onClose} style={styles.closeButton}>
+        <Text style={styles.closeText}>✕</Text>
+      </Pressable>
 
       <Controller
         control={control}
@@ -107,10 +110,21 @@ function AddLotteryForm({
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
+    marginTop: 16,
   },
   title: {
     fontSize: 20,
     fontWeight: '500',
+  },
+  closeButton: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    padding: 8,
+  },
+  closeText: {
+    fontSize: 24,
+    color: colors.primary,
   },
   input: {
     marginTop: 16,

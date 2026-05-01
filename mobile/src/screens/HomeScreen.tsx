@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { Text, View, StyleSheet, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import AddLotteryButton from '../components/AddLotteryButton';
@@ -52,7 +53,7 @@ const Home = () => {
   const keyExtractor = useCallback((item: Lottery) => item.id, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.title}>
         <Text style={styles.titleText}>Lotteries</Text>
         <MaterialIcons name="casino" size={36} color="black" />
@@ -80,7 +81,7 @@ const Home = () => {
           <Text>No results for search {searchTerm}</Text>
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -95,6 +96,7 @@ const styles = StyleSheet.create({
   title: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 16,
   },
   titleText: {
     fontSize: 36,
