@@ -11,7 +11,7 @@ export const useFetchLotteries = () => {
       const lotteries = await fetchLotteries();
       setLotteries(lotteries);
     } catch (error) {
-      console.log((error as Error).message);
+      console.error((error as Error).message);
     } finally {
       setIsLoading(false);
     }

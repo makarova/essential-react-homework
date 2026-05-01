@@ -17,13 +17,19 @@ const Home = () => {
   const { lotteries, loadLotteries } = useFetchLotteries();
   const { searchTerm, onSearchChange, matchingLotteries } =
     useSearchLotteries(lotteries);
-  const { handleLotterySelected, isLotterySelected, selectedLotteryIds } =
-    useSelectLottery();
+  const {
+    handleLotterySelected,
+    isLotterySelected,
+    selectedLotteryIds,
+    resetSelectedLotteries,
+  } = useSelectLottery();
 
+  // clean up after AddLotteryScreen and Register modal
   useFocusEffect(
     useCallback(() => {
       void loadLotteries();
-    }, [loadLotteries]),
+      void resetSelectedLotteries();
+    }, [loadLotteries, resetSelectedLotteries]),
   );
 
   const renderItem = useCallback(

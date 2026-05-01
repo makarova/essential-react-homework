@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export const useSelectLottery = () => {
   const [selectedLotteryIds, setSelectedLotteryIds] = useState<Array<string>>(
@@ -19,9 +19,9 @@ export const useSelectLottery = () => {
     }
   };
 
-  const resetSelectedLotteries = (): void => {
+  const resetSelectedLotteries = useCallback((): void => {
     setSelectedLotteryIds([]);
-  };
+  }, []);
 
   return {
     isLotterySelected,
