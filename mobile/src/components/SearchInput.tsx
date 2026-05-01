@@ -13,44 +13,44 @@ export default function SearchInput({
   onChange,
 }: SearchInputProps) {
   return (
-    <View>
-      <View style={styles.inputContainer}>
-        <MaterialIcons
-          name="search"
-          size={18}
-          color="black"
-          style={styles.icon}
-        />
-        <TextInput
-          accessibilityLabel="Text input field"
-          placeholder="Filter lotteries"
-          style={styles.input}
-          onChangeText={onChange}
-          value={searchTerm}
-        />
-      </View>
+    <View style={styles.inputContainer}>
+      <MaterialIcons
+        name="search"
+        size={20}
+        color={colors.grey}
+        style={styles.icon}
+      />
+      <TextInput
+        accessibilityLabel="Text input field"
+        placeholder="Filter lotteries"
+        style={styles.input}
+        onChangeText={onChange}
+        value={searchTerm}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   inputContainer: {
-    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 16,
     marginBottom: 16,
-  },
-  input: {
-    paddingVertical: 16,
-    paddingLeft: 10,
-    paddingRight: 16,
     borderWidth: 1,
     borderColor: colors.borderColor,
+    borderRadius: 8,
+    backgroundColor: colors.secondary,
+    minHeight: 48,
+  },
+  input: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingRight: 16,
     fontSize: 16,
   },
   icon: {
-    position: 'absolute',
-    right: 16,
-    top: 16,
-    zIndex: 1,
+    paddingLeft: 12,
+    paddingRight: 8,
   },
 });

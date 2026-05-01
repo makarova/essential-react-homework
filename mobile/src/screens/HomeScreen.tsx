@@ -57,7 +57,7 @@ const Home = () => {
         <Text style={styles.titleText}>Lotteries</Text>
         <MaterialIcons name="casino" size={36} color="black" />
       </View>
-      <View>
+      <View style={styles.searchContainer}>
         <SearchInput searchTerm={searchTerm} onChange={onSearchChange} />
       </View>
       <RegisterForLotteryButton
@@ -100,8 +100,14 @@ const styles = StyleSheet.create({
     fontSize: 36,
     marginRight: 16,
   },
+  searchContainer: {
+    width: '100%',
+    paddingHorizontal: 16,
+  },
   lotteryList: {
     flex: 1,
     marginBottom: 100,
+    width: '100%',
+    paddingHorizontal: 16,
   },
 });
