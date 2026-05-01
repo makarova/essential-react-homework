@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Alert,
   Modal,
   StyleSheet,
   Text,
@@ -9,15 +8,16 @@ import {
   TextInput,
 } from 'react-native';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { useRegisterForLotteries } from '../hooks/useRegisterForLotteries';
 import { colors } from '../colors';
+import { RootStackParamList } from '../types';
 
 type RegisterForLotteryInputs = {
   userName: string;
 };
 
-const RegisterForLotteryModal = ({ selectedLotteryIds }) => {
+const RegisterForLotteryModal = () => {
   const {
     control,
     handleSubmit,
@@ -26,13 +26,15 @@ const RegisterForLotteryModal = ({ selectedLotteryIds }) => {
 
   const {
     registerForLotteries,
-    registerSuccess,
-    registerError,
-    resetRegisterState,
-    registerInProgress,
+    // registerSuccess,
+    // registerError,
+    // resetRegisterState,
+    // registerInProgress,
   } = useRegisterForLotteries();
 
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<RootStackParamList, 'RegisterForLottery'>>();
+  const { selectedLotteryIds } = route.params;
 
   const onSubmitHandler: SubmitHandler<RegisterForLotteryInputs> = async (
     data,
@@ -53,8 +55,7 @@ const RegisterForLotteryModal = ({ selectedLotteryIds }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Register for lotteries</Text>
-
+            <Text style={styles.textStyle}>Register for lotteries</Text>
             <Controller
               control={control}
               name="userName"
@@ -82,7 +83,7 @@ const RegisterForLotteryModal = ({ selectedLotteryIds }) => {
               ]}
               onPress={handleSubmit(onSubmitHandler)}
             >
-              <Text style={styles.textStyle}>Register</Text>
+              <Text style={styles.buttonText}>Register</Text>
             </Pressable>
           </View>
         </View>
@@ -99,11 +100,11 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: colors.primary,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -118,19 +119,22 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonPrimary,
   },
   textStyle: {
-    color: 'white',
+    color: colors.primary,
     fontWeight: 'bold',
+    fontSize: 20,
     textAlign: 'center',
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  buttonText: {
+    color: colors.secondary,
+    fontSize: 16,
+    fontWeight: '600',
   },
   input: {
     marginTop: 16,
+    marginBottom: 16,
     paddingVertical: 16,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
