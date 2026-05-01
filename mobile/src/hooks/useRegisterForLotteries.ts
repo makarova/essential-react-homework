@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { registerForLottery } from '../services';
+import { addToStoredRegisteredLotteryIds } from '../services/asyncStorageService';
 
 export const useRegisterForLotteries = () => {
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export const useRegisterForLotteries = () => {
         ),
       );
       setSuccess(true);
-      await updateStorage(selectedLotteryIds);
+      await addToStoredRegisteredLotteryIds(selectedLotteryIds);
       callback();
     } catch (e) {
       const error = e as Error;
@@ -48,21 +48,3 @@ export const useRegisterForLotteries = () => {
     resetRegisterState: reset,
   };
 };
-
-async function updateStorage(selectedLotteryIds: string[]) {
-  try {
-    const storedLotteryString = await AsyncStorage.getItem(
-      'registeredLotteries',
-    );
-    const registeredBefore: string[] =
-      storedLotteryString !== null ? JSON.parse(storedLotteryString) : [];
-    const itemsToStore = [...registeredBefore, ...selectedLotteryIds];
-    console.log('itemsToStore', itemsToStore);
-    await AsyncStorage.setItem(
-      'registeredLotteries',
-      JSON.stringify(itemsToStore),
-    );
-  } catch (e) {
-    console.error(e);
-  }
-}

@@ -7,16 +7,18 @@ import { colors } from '../colors';
 interface LotteryProps {
   lottery: Lottery;
   checkIsSelected: (lotteryId: string) => boolean;
+  checkIsRegistered: (lotteryId: string) => boolean;
   updateSelection: (lotteryId: string) => void;
 }
 
 function InnerLotteryCard({
   lottery: { id, name, prize, status },
   checkIsSelected,
+  checkIsRegistered,
   updateSelection,
 }: LotteryProps) {
   const isSelected = checkIsSelected(id);
-  const isDisabled = status !== 'running';
+  const isDisabled = status !== 'running' || checkIsRegistered(id);
 
   return (
     <Pressable

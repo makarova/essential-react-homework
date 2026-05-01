@@ -11,6 +11,7 @@ import { useSearchLotteries } from '../hooks/useSearchLotteries';
 import { useSelectLottery } from '../hooks/useSelectLottery';
 import { LotteryCard } from '../components/LotteryCard';
 import RegisterForLotteryButton from '../components/RegisterForLotteryButton';
+import { useRegisteredLotteries } from '../hooks/useRegisteredLotteries';
 
 const Home = () => {
   const navigation = useNavigation<AddLotteryNavigationProp>();
@@ -24,12 +25,16 @@ const Home = () => {
     resetSelectedLotteries,
   } = useSelectLottery();
 
+  const { isLotteryRegistered, fetchRegisteredLotteries } =
+    useRegisteredLotteries();
+
   // clean up after AddLotteryScreen and Register modal
   useFocusEffect(
     useCallback(() => {
       void loadLotteries();
       void resetSelectedLotteries();
-    }, [loadLotteries, resetSelectedLotteries]),
+      void fetchRegisteredLotteries();
+    }, [loadLotteries, resetSelectedLotteries, fetchRegisteredLotteries]),
   );
 
   const renderItem = useCallback(
@@ -38,9 +43,10 @@ const Home = () => {
         lottery={item}
         checkIsSelected={isLotterySelected}
         updateSelection={handleLotterySelected}
+        checkIsRegistered={isLotteryRegistered}
       />
     ),
-    [handleLotterySelected, isLotterySelected],
+    [handleLotterySelected, isLotterySelected, isLotteryRegistered],
   );
 
   const keyExtractor = useCallback((item: Lottery) => item.id, []);
