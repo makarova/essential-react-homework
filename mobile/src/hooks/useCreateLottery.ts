@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { createLottery } from '../services';
-import type { Lottery } from '../types';
+import { CreateLotteryPayload } from '../types';
 
 export const useCreateLottery = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
-  const create = async (data: Lottery, postCreateCallback: () => void) => {
+  const create = async (
+    data: CreateLotteryPayload,
+    postCreateCallback: () => void,
+  ) => {
     setLoading(true);
     try {
       await createLottery({

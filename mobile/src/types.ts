@@ -9,6 +9,11 @@ export interface Lottery {
   status: Status;
 }
 
+export interface CreateLotteryPayload {
+  name: string;
+  prize: string;
+}
+
 // navigation types
 export type RootStackParamList = {
   Home: undefined;

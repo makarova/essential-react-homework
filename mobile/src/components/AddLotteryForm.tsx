@@ -7,12 +7,12 @@ import {
   Pressable,
   ActivityIndicator,
 } from 'react-native';
-import type { Lottery } from '../types';
+import { CreateLotteryPayload, Lottery } from '../types';
 import { colors } from '../colors';
 
 interface AddLotteryFormProps {
   onClose: () => void;
-  createLottery: (data: { name: string; prize: string }) => Promise<void>;
+  createLottery: (data: CreateLotteryPayload) => Promise<void>;
   error?: string;
   lottery?: Lottery;
   loading: boolean;
@@ -97,7 +97,7 @@ function AddLotteryForm({
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <Text style={styles.buttonText}>ADD</Text>
+          <Text style={styles.buttonText}>Add</Text>
         )}
       </Pressable>
     </View>

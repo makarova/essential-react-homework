@@ -18,7 +18,7 @@ export default function RegisterForLotteryButton({
       onPress={onPress}
       disabled={isDisabled}
     >
-      <Text>Register</Text>
+      <Text style={styles.buttonText}>Register</Text>
     </TouchableOpacity>
   );
 }
@@ -37,5 +37,10 @@ const styles = StyleSheet.create({
     elevation: 8,
     color: colors.buttonSecondary,
     fontSize: 16,
+  },
+  buttonText: {
+    color: colors.secondary,
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

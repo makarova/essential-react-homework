@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useToast } from 'react-native-toast-notifications';
 import AddLotteryForm from '../components/AddLotteryForm';
 import { useCreateLottery } from '../hooks/useCreateLottery';
-import { Lottery } from '../types';
+import { CreateLotteryPayload } from '../types';
 
 export default function AddLotteryScreen() {
   const {
@@ -15,7 +15,7 @@ export default function AddLotteryScreen() {
 
   const toast = useToast();
 
-  const handleCreateLottery = (data: Lottery) => {
+  const handleCreateLottery = (data: CreateLotteryPayload): Promise<void> => {
     return create(data, () => {
       resetAddLotteryState();
       const toastMessage = lotterySuccess

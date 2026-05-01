@@ -14,7 +14,7 @@ const AddLotteryButton = ({ onPress }: Props) => {
       style={styles.container}
       onPress={onPress}
     >
-      <Ionicons name="add" size={30} color="#FFF" />
+      <Ionicons name="add" size={30} color={colors.secondary} />
     </TouchableOpacity>
   );
 };
