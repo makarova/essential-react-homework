@@ -1,0 +1,25 @@
+appId: host.exp.Exponent
+env:
+  EXPO_URL: exp://127.0.0.1:8082/--/
+  LOTTERY_NAME: The very best Lottery
+  LOTTERY_PRIZE: "1234 EUR"
+---
+- openLink: ${EXPO_URL}
+- extendedWaitUntil:
+    visible: Lotteries
+    timeout: 5000
+- tapOn:
+    id: add-lottery-button
+- tapOn: "Lottery name"
+- inputText: ${LOTTERY_NAME}
+- tapOn: "Lottery prize"
+- inputText: ${LOTTERY_PRIZE}
+- tapOn: "Add"
+# Verify we're back on home screen
+- waitForAnimationToEnd
+- assertVisible: "Lotteries"
+- assertVisible: "Filter lotteries"
+- assertVisible:
+    id: "add-lottery-button"
+# Wait for lottery list to load <-- this one fails
+- assertVisible: ${LOTTERY_NAME}
