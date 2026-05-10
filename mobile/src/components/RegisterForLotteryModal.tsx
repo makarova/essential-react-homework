@@ -24,13 +24,7 @@ const RegisterForLotteryModal = () => {
     formState: { errors, isValid },
   } = useForm<RegisterForLotteryInputs>();
 
-  const {
-    registerForLotteries,
-    // registerSuccess,
-    // registerError,
-    // resetRegisterState,
-    // registerInProgress,
-  } = useRegisterForLotteries();
+  const { registerForLotteries } = useRegisterForLotteries();
 
   const navigation = useNavigation();
   const route = useRoute<RouteProp<RootStackParamList, 'RegisterForLottery'>>();

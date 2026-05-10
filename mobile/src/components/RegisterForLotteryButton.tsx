@@ -13,6 +13,7 @@ export default function RegisterForLotteryButton({
 }: Props) {
   return (
     <TouchableOpacity
+      testID="register-button"
       accessibilityRole="button"
       style={[styles.container, isDisabled && { backgroundColor: colors.grey }]}
       onPress={onPress}

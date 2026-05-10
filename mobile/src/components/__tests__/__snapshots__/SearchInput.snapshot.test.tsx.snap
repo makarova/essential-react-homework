@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchInput Snapshots should match snapshot with existing search term 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#fff",
+      "borderColor": "#D3D3D3",
+      "borderRadius": 8,
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "marginBottom": 16,
+      "marginTop": 16,
+      "minHeight": 48,
+    }
+  }
+>
+  <MaterialIcons
+    color="#CCCCCC"
+    name="search"
+    size={20}
+    style={
+      {
+        "paddingLeft": 12,
+        "paddingRight": 8,
+      }
+    }
+  />
+  <TextInput
+    accessibilityLabel="Text input field"
+    onChangeText={[MockFunction]}
+    placeholder="Filter lotteries"
+    style={
+      {
+        "flex": 1,
+        "fontSize": 16,
+        "paddingRight": 16,
+        "paddingVertical": 12,
+      }
+    }
+    value="Summer Jackpot"
+  />
+</View>
+`;

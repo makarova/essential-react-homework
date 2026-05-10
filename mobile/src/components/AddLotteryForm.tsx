@@ -49,7 +49,12 @@ function AddLotteryForm({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add a new lottery</Text>
-      <Pressable onPress={onClose} style={styles.closeButton}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Close"
+        onPress={onClose}
+        style={styles.closeButton}
+      >
         <Text style={styles.closeText}>✕</Text>
       </Pressable>
 

@@ -10,6 +10,7 @@ type Props = {
 const AddLotteryButton = ({ onPress }: Props) => {
   return (
     <TouchableOpacity
+      testID="add-lottery-button"
       accessibilityRole="button"
       style={styles.container}
       onPress={onPress}
