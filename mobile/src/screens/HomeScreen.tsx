@@ -10,6 +10,7 @@ import { useSelectLottery } from '../hooks/useSelectLottery';
 import RegisterForLotteryButton from '../components/RegisterForLotteryButton';
 import { useRegisteredLotteries } from '../hooks/useRegisteredLotteries';
 import { LotteriesList } from '../components/LotteriesList';
+import { LotteriesSortingContextProvider } from '../context/LotteriesSortingContext';
 
 const Home = () => {
   const navigation = useNavigation<AddLotteryNavigationProp>();
@@ -35,21 +36,23 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <RegisterForLotteryButton
-        onPress={() =>
-          navigation.navigate('RegisterForLottery', {
-            selectedLotteryIds: selectedLotteryIds,
-          })
-        }
-        isDisabled={selectedLotteryIds.length === 0}
-      />
-      <AddLotteryButton onPress={() => navigation.navigate('AddLottery')} />
-      <LotteriesList
-        lotteries={lotteries}
-        handleLotterySelected={handleLotterySelected}
-        isLotterySelected={isLotterySelected}
-        isLotteryRegistered={isLotteryRegistered}
-      />
+      <LotteriesSortingContextProvider>
+        <RegisterForLotteryButton
+          onPress={() =>
+            navigation.navigate('RegisterForLottery', {
+              selectedLotteryIds: selectedLotteryIds,
+            })
+          }
+          isDisabled={selectedLotteryIds.length === 0}
+        />
+        <AddLotteryButton onPress={() => navigation.navigate('AddLottery')} />
+        <LotteriesList
+          lotteries={lotteries}
+          handleLotterySelected={handleLotterySelected}
+          isLotterySelected={isLotterySelected}
+          isLotteryRegistered={isLotteryRegistered}
+        />
+      </LotteriesSortingContextProvider>
     </SafeAreaView>
   );
 };

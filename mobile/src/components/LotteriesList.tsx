@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import Animated, {
@@ -11,8 +11,13 @@ import Animated, {
 import { useNavigation } from '@react-navigation/native';
 import { Lottery, LotteryDetailsNavigationProp } from '../types';
 import { useSearchLotteries } from '../hooks/useSearchLotteries';
+import {
+  LotteryListSortingOptions,
+  useLotteriesSortingContext,
+} from '../context/LotteriesSortingContext';
 import SearchInput from './SearchInput';
 import { LotteryCard } from './LotteryCard';
+import LotteriesSortingButton from './LotteriesSortingButton';
 
 interface LotteriesListProps {
   lotteries: Lottery[];
@@ -20,6 +25,11 @@ interface LotteriesListProps {
   isLotteryRegistered: (lotteryId: string) => boolean;
   handleLotterySelected: (lotteryId: string) => void;
 }
+
+const extractNumericValue = (prize: string): number => {
+  const numericString = prize.replace(/[^\d]/g, '');
+  return Number(numericString) || 0;
+};
 
 export const LotteriesList: React.FC<LotteriesListProps> = ({
   lotteries,
@@ -30,6 +40,8 @@ export const LotteriesList: React.FC<LotteriesListProps> = ({
   const { searchTerm, onSearchChange, matchingLotteries } =
     useSearchLotteries(lotteries);
 
+  const { selectedSorting } = useLotteriesSortingContext();
+
   const scrollY = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -37,6 +49,16 @@ export const LotteriesList: React.FC<LotteriesListProps> = ({
       scrollY.value = event.contentOffset.y;
     },
   });
+
+  const sortedLotteries = useMemo(
+    () =>
+      matchingLotteries.sort((a, b) =>
+        selectedSorting === LotteryListSortingOptions.Ascending
+          ? extractNumericValue(a.prize) - extractNumericValue(b.prize)
+          : extractNumericValue(b.prize) - extractNumericValue(a.prize),
+      ),
+    [matchingLotteries, selectedSorting],
+  );
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
     const height = interpolate(
@@ -93,6 +115,7 @@ export const LotteriesList: React.FC<LotteriesListProps> = ({
       </View>
       <View style={styles.searchContainer}>
         <SearchInput searchTerm={searchTerm} onChange={onSearchChange} />
+        <LotteriesSortingButton />
       </View>
     </Animated.View>
   );
@@ -104,7 +127,7 @@ export const LotteriesList: React.FC<LotteriesListProps> = ({
   return (
     <View style={styles.lotteryList}>
       <Animated.FlatList
-        data={matchingLotteries}
+        data={sortedLotteries}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         ListHeaderComponent={Header}
