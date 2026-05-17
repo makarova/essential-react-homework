@@ -8,7 +8,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import { Lottery } from '../types';
+import { useNavigation } from '@react-navigation/native';
+import { Lottery, LotteryDetailsNavigationProp } from '../types';
 import { useSearchLotteries } from '../hooks/useSearchLotteries';
 import SearchInput from './SearchInput';
 import { LotteryCard } from './LotteryCard';
@@ -66,6 +67,8 @@ export const LotteriesList: React.FC<LotteriesListProps> = ({
     };
   });
 
+  const navigation = useNavigation<LotteryDetailsNavigationProp>();
+
   const renderItem = useCallback(
     ({ item }: { item: Lottery }) => (
       <LotteryCard
@@ -73,9 +76,12 @@ export const LotteriesList: React.FC<LotteriesListProps> = ({
         checkIsSelected={isLotterySelected}
         updateSelection={handleLotterySelected}
         checkIsRegistered={isLotteryRegistered}
+        onTitlePress={() =>
+          navigation.navigate('LotteryDetails', { id: item.id })
+        }
       />
     ),
-    [handleLotterySelected, isLotterySelected, isLotteryRegistered],
+    [handleLotterySelected, isLotterySelected, isLotteryRegistered, navigation],
   );
   const keyExtractor = useCallback((item: Lottery) => item.id, []);
 
