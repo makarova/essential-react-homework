@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleText: {
-    fontSize: 30,
+    fontSize: 36,
+    fontWeight: 'bold',
     marginRight: 16,
   },
   searchContainer: {

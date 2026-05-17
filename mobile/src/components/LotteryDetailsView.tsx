@@ -21,6 +21,7 @@ const LotteryDetailsView = ({ lottery }: LotteryDetailsViewProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.secondary,
   },
   text: {
     paddingHorizontal: 16,

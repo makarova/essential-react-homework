@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   title: {
-    fontSize: 20,
-    fontWeight: '500',
+    fontSize: 36,
+    fontWeight: 'bold',
   },
   closeButton: {
     position: 'absolute',
