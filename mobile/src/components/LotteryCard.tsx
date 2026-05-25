@@ -1,6 +1,12 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { memo } from 'react';
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import { Lottery } from '../types';
 import { colors } from '../colors';
 
@@ -9,6 +15,7 @@ interface LotteryProps {
   checkIsSelected: (lotteryId: string) => boolean;
   checkIsRegistered: (lotteryId: string) => boolean;
   updateSelection: (lotteryId: string) => void;
+  onTitlePress: () => void;
 }
 
 function InnerLotteryCard({
@@ -16,6 +23,7 @@ function InnerLotteryCard({
   checkIsSelected,
   checkIsRegistered,
   updateSelection,
+  onTitlePress,
 }: LotteryProps) {
   const isSelected = checkIsSelected(id);
   const isDisabled = status !== 'running' || checkIsRegistered(id);
@@ -33,7 +41,9 @@ function InnerLotteryCard({
       ]}
     >
       <View style={styles.cardText}>
-        <Text style={styles.title}>{name}</Text>
+        <TouchableOpacity accessibilityRole="button" onPress={onTitlePress}>
+          <Text style={styles.title}>{name}</Text>
+        </TouchableOpacity>
         <Text>{prize}</Text>
         <Text>{id}</Text>
       </View>

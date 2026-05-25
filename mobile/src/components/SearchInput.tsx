@@ -33,6 +33,7 @@ export default function SearchInput({
 
 const styles = StyleSheet.create({
   inputContainer: {
+    width: '75%',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 16,

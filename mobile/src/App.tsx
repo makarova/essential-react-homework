@@ -10,6 +10,7 @@ import { RootStackParamList } from './types';
 import HomeScreen from './screens/HomeScreen';
 import AddLotteryScreen from './screens/AddLotteryScreen';
 import RegisterForLotteryModal from './components/RegisterForLotteryModal';
+import { LotteryDetailsScreen } from './screens/LotteryDetailsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -31,12 +32,17 @@ export default function App() {
             <Stack.Screen
               name="AddLottery"
               component={AddLotteryScreen}
-              options={options}
+              options={{ ...options, headerShown: true, title: '' }}
             />
             <Stack.Screen
               name="RegisterForLottery"
               component={RegisterForLotteryModal}
               options={options}
+            />
+            <Stack.Screen
+              name="LotteryDetails"
+              component={LotteryDetailsScreen}
+              options={{ ...options, headerShown: true, title: '' }}
             />
           </Stack.Navigator>
         </NavigationContainer>
